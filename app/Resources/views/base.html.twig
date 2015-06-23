@@ -36,7 +36,11 @@
                                             <i class="fa fa-home"></i> Homepage
                                         </a>
                                     </li>
-                                {% endblock %}
+                                        {% if not app.user %}
+                                            <li><a href="{{ path('security_login_form') }}">Login</a></li>
+                                            <li><a href="{{ path('security_register_form') }}">Sign Up</a></li>
+                                        {% endif %}
+                                    {% endblock %}
 
                                 {% if app.user %}
                                     <li>

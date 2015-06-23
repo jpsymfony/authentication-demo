@@ -21,29 +21,4 @@ class UserController extends Controller
     {
         return $this->render('user/dashboard.html.twig');
     }
-
-    /**
-     * @Route("/change-password", name="change_password")
-     * @Method("GET|POST")
-     */
-    public function changePasswordAction(Request $request)
-    {
-//        $data = new ChangePassword($this->getUser());
-//        $form = $this->createForm('change_password', $data);
-//        $form->handleRequest($request);
-//
-//        if ($form->isValid()) {
-//            $handler = $this->get('app.credentials');
-//            $handler->updateCredentials($data->getUser(), $data->getNewPassword());
-//            $manager = $this->getDoctrine()->getManager();
-//            $manager->flush();
-//            $this->addFlash('success', 'Password has been changed successfully.');
-//
-//            return $this->redirectToRoute('change_password');
-//        }
-//
-//        return $this->render('user/password.html.twig', [
-//            'form' => $form->createView(),
-//        ]);
-    }
 }
