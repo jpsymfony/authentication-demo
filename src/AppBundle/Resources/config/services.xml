@@ -5,12 +5,20 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="app.validator_unique_attribute.class">AppBundle\Validator\Constraints\UniqueAttributeValidator</parameter>
         <parameter key="app.user.manager.class">AppBundle\User\Manager\UserManager</parameter>
         <parameter key="app.registration.handler.class">AppBundle\User\Registration\RegistrationFormHandler</parameter>
         <parameter key="app.send_confirmation_mail_listener.class">AppBundle\EventListener\SendConfirmationMailListener</parameter>
     </parameters>
 
     <services>
+        
+        <service id="app.validator_unique_attribute"
+                 class="%app.validator_unique_attribute.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="validator.constraint_validator" alias="validator_unique_attribute"/>
+        </service>
+        
         <service id="app.send_confirmation_mail_listener"
                  class="%app.send_confirmation_mail_listener.class%">
             <argument type="service" id="mailer"/>

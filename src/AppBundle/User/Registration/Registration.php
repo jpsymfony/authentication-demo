@@ -3,12 +3,17 @@
 namespace AppBundle\User\Registration;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints as CustomAssert;
 use AppBundle\Entity\User;
 
 class Registration
 {
     /**
      * @Assert\NotBlank()
+     * @CustomAssert\UniqueAttribute(
+     *      repository="AppBundle\Entity\User",
+     *      property="username"
+     * )
      */
     private $username;
 
@@ -20,6 +25,10 @@ class Registration
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
+     * @CustomAssert\UniqueAttribute(
+     *      repository="AppBundle\Entity\User",
+     *      property="email"
+     * )
      */
     private $email;
 
