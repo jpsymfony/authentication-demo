@@ -41,9 +41,9 @@ class LoadFixtures implements FixtureInterface, ContainerAwareInterface
     private function loadUsers(ObjectManager $manager)
     {
         $user = new User();
-        $user->setUsername('john_user');
-        $user->setEmail('john_user@symfony.com');
-        $user->setPlainPassword('pass');
+        $user->setUsername('john');
+        $user->setEmail('john@symfony.com');
+        $user->setPlainPassword('passpass');
         $user->setIsActive(true);
 
         $factory = $this->container->get('security.encoder_factory');
