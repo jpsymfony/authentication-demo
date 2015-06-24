@@ -41,7 +41,7 @@ class UserController extends Controller
         ]);
     }
 
-        /**
+    /**
      * @return \AppBundle\Form\Handler\FormHandlerInterface
      */
     protected function getPasswordFormHandler()
