@@ -1,20 +1,20 @@
 <?php
 
-namespace AppBundle\User\Registration;
+namespace AppBundle\User\Password;
 
 use AppBundle\Form\Handler\FormHandlerInterface;
 use AppBundle\User\Manager\UserManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class RegistrationFormHandler implements FormHandlerInterface
+class PasswordFormHandler implements FormHandlerInterface
 {
     /**
      *
      * @var UserManagerInterface
      */
     private $userManager;
-    
+
     /**
      * @param UserManagerInterface $userManager
      */
@@ -37,8 +37,8 @@ class RegistrationFormHandler implements FormHandlerInterface
         if (!$form->isValid()) {
             return false;
         }
-
-        $this->userManager->createUser($form->getData()->getUser());
+        
+        $this->userManager->updateCredentials($form->getData()->getUser(), $form->getData()->getNewPassword());
 
         return true;
     }

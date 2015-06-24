@@ -7,4 +7,9 @@
     <p>
         Welcome {{ app.user.username }}
     </p>
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
 {% endblock %}

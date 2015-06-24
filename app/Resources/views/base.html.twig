@@ -36,19 +36,21 @@
                                             <i class="fa fa-home"></i> Homepage
                                         </a>
                                     </li>
-                                        {% if not app.user %}
-                                            <li><a href="{{ path('security_login_form') }}">Login</a></li>
-                                            <li><a href="{{ path('security_register_form') }}">Sign Up</a></li>
-                                        {% endif %}
-                                    {% endblock %}
 
-                                {% if app.user %}
-                                    <li>
-                                        <a href="{{ path('security_logout') }}">
-                                            <i class="fa fa-sign-out"></i> Logout
-                                        </a>
-                                    </li>
-                                {% endif %}
+                                    {% if app.user %}
+                                        <li role="presentation">
+                                            <a href="{{ path('change_password') }}">Change Password</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('security_logout') }}">
+                                                <i class="fa fa-sign-out"></i> Logout
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li><a href="{{ path('security_login_form') }}">Login</a></li>
+                                        <li><a href="{{ path('security_register_form') }}">Register</a></li>
+                                        {% endif %}
+                                {% endblock %}
                             </ul>
                         </div>
                     </div>
