@@ -19,6 +19,7 @@ class Registration
 
     /**
      * @Assert\NotBlank()
+     * @Assert\Length(min=8)
      */
     private $password;
 
