@@ -9,6 +9,9 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class UniqueAttributeValidator extends ConstraintValidator
 {
+    /**
+     * @param ObjectManager $manager
+     */
     protected $manager;
 
     /**

@@ -13,6 +13,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ChangePasswordType extends AbstractType
 {
+    /**
+     *
+     * @var UserManagerInterface $handler
+     */
     private $handler;
 
     /**

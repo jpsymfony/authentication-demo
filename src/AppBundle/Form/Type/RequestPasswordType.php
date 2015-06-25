@@ -13,6 +13,10 @@ use Symfony\Component\Form\FormEvents;
 
 class RequestPasswordType extends AbstractType
 {
+    /**
+     *
+     * @var UserManagerInterface $handler
+     */
     private $handler;
 
     /**
