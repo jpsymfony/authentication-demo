@@ -13,6 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ChangePassword
 {
+    /**
+     *
+     * @var UserInterface
+     */
     private $user;
 
     /**
