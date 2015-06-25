@@ -7,6 +7,7 @@ use AppBundle\AppEvents;
 use AppBundle\Entity\UserInterface;
 use AppBundle\User\Manager\UserManagerInterface;
 use AppBundle\Event\UserDataEvent;
+use AppBundle\Repository\UserRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -34,20 +35,28 @@ class UserManager implements UserManagerInterface
     protected $encoder;
 
     /**
+     *
+     * @var UserRepository
+     */
+    protected $userRepository;
+
+    /**
      * @param ObjectManager                 $manager
      * @param EncoderFactoryInterface       $encoderFactory
      * @param EventDispatcherInterface      $dispatcher
      * @param UserPasswordEncoderInterface  $encoder
+     * @param UserRepository                $userRepository
      */
     public function __construct(
     ObjectManager $manager, EncoderFactoryInterface $encoderFactory, EventDispatcherInterface $dispatcher,
-    UserPasswordEncoderInterface $encoder
+    UserPasswordEncoderInterface $encoder, UserRepository $userRepository
     )
     {
         $this->objectManager = $manager;
         $this->encoderFactory = $encoderFactory;
         $this->dispatcher = $dispatcher;
         $this->encoder = $encoder;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -84,5 +93,33 @@ class UserManager implements UserManagerInterface
     public function isPasswordValid(UserInterface $user, $plainPassword)
     {
         return $this->encoder->isPasswordValid($user, $plainPassword);
+    }
+
+    public function getUserByIdentifier($identifier)
+    {
+        return $this->userRepository->getUserByEmailOrUsername($identifier);
+    }
+
+    public function sendRequestPassword($user)
+    {
+        $this->dispatcher->dispatch(
+            AppEvents::NEW_PASSWORD_REQUESTED, new UserDataEvent($user)
+        );
+    }
+
+    public function updateConfirmationTokenUser(UserInterface $user, $token) {
+        $user->setConfirmationToken($token);
+        $user->setIsAlreadyRequested(true);
+        $this->objectManager->flush();
+    }
+
+    public function getUserByConfirmationToken($token)
+    {
+        return $this->userRepository->findOneByConfirmationToken($token);
+    }
+
+    public function clearConfirmationTokenUser(UserInterface $user) {
+        $user->setConfirmationToken(null);
+        $user->setIsAlreadyRequested(false);
     }
 }
