@@ -8,9 +8,15 @@
         <parameter key="app.validator_unique_attribute.class">AppBundle\Validator\Constraints\UniqueAttributeValidator</parameter>
         <parameter key="app.user.manager.class">AppBundle\User\Manager\UserManager</parameter>
         <parameter key="app.registration.handler.class">AppBundle\User\Registration\RegistrationFormHandler</parameter>
+        <parameter key="app.change_password.handler.class">AppBundle\User\Password\ChangePasswordFormHandler</parameter>
+        <parameter key="app.request_password.handler.class">AppBundle\User\Password\RequestPasswordFormHandler</parameter>
+        <parameter key="app.reset_password.handler.class">AppBundle\User\Password\ResetPasswordFormHandler</parameter>
         <parameter key="app.send_confirmation_mail_listener.class">AppBundle\EventListener\SendConfirmationMailListener</parameter>
+        <parameter key="app.send_request_password_mail_listener.class">AppBundle\EventListener\SendRequestPasswordMailListener</parameter>
         <parameter key="form.type.change_password.class">AppBundle\Form\Type\ChangePasswordType</parameter>
-        <parameter key="app.password.handler.class">AppBundle\User\Password\PasswordFormHandler</parameter>
+        <parameter key="form.type.request_password.class">AppBundle\Form\Type\RequestPasswordType</parameter>
+        <parameter key="form.type.reset_password.class">AppBundle\Form\Type\ResetPasswordType</parameter>
+        <parameter key="app.repository_user.class">AppBundle\Repository\UserRepository</parameter>
     </parameters>
 
     <services>
@@ -29,6 +35,18 @@
             <argument>%mail_from%</argument>
             <tag name="kernel.event_listener" event="app.new_account_created" method="onNewAccountCreated" />
         </service>
+        
+        <service id="app.send_request_password_mail_listener"
+                 class="%app.send_request_password_mail_listener.class%">
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="twig" />
+            <argument type="service" id="router" />
+            <argument type="service" id="security.csrf.token_generator" />
+            <argument type="service" id="app.user.manager" />
+            <argument>AppBundle:Mail:request_password_mail.html.twig</argument>
+            <argument>%mail_from%</argument>
+            <tag name="kernel.event_listener" event="app.new_password_requested" method="onRequestedPassword" />
+        </service>
     
         <service id="app.user.manager"
                  class="%app.user.manager.class%">
@@ -36,6 +54,7 @@
             <argument type="service" id="security.encoder_factory" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="security.password_encoder" />
+            <argument type="service" id="app.repository.user" />
         </service>
         
         <service id="app.registration.handler"
@@ -43,15 +62,45 @@
             <argument type="service" id="app.user.manager" />
         </service>
         
+        <service id="app.change_password.handler"
+                 class="%app.change_password.handler.class%">
+            <argument type="service" id="app.user.manager" />
+        </service>
+        
+        <service id="app.request_password.handler"
+                 class="%app.request_password.handler.class%">
+            <argument type="service" id="app.user.manager" />
+        </service>
+        
+        <service id="app.reset_password.handler"
+                 class="%app.reset_password.handler.class%">
+            <argument type="service" id="app.user.manager" />
+        </service>
+        
         <service id="form.type.change_password"
                  class="%form.type.change_password.class%">
             <argument type="service" id="app.user.manager" />
-            <tag name="form.type" alias="change_password" />
+            <tag name="form.type" alias="change_password_form" />
         </service>
         
-        <service id="app.password.handler"
-                 class="%app.password.handler.class%">
+        <service id="form.type.request_password"
+                 class="%form.type.request_password.class%">
             <argument type="service" id="app.user.manager" />
+            <tag name="form.type" alias="request_password_form" />
+        </service>
+
+        <service id="form.type.reset_password"
+                 class="%form.type.reset_password.class%" scope="request" >
+            <argument type="service" id="app.user.manager" />
+            <argument type="service" id="request" />
+            <tag name="form.type" alias="reset_password_form" />
+        </service>
+        
+        <service id="app.repository.user"
+                 class="%app.repository_user.class%"
+                 factory-service="doctrine"
+                 factory-method="getRepository">
+            <argument>AppBundle\Entity\User</argument>
         </service>
     </services>
 </container>
