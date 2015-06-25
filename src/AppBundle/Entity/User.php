@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * User
  *
  * @ORM\Table(name="user")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity(fields="username", message="That username is taken!")
  * @UniqueEntity(fields="email", message="That email is taken!")
  */
@@ -77,6 +77,18 @@ class User implements UserInterface, Serializable
      * )
      */
     private $plainPassword;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $confirmationToken = null;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $isAlreadyRequested = false;
 
     /**
      * Get id
@@ -292,6 +304,26 @@ class User implements UserInterface, Serializable
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+    public function getIsAlreadyRequested()
+    {
+        return $this->isAlreadyRequested;
+    }
+
+    public function setConfirmationToken($confirmationToken)
+    {
+        $this->confirmationToken = $confirmationToken;
+    }
+
+    public function setIsAlreadyRequested($isAlreadyRequested)
+    {
+        $this->isAlreadyRequested = $isAlreadyRequested;
     }
 
     public function __toString()
