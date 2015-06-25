@@ -4,6 +4,7 @@ namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationType extends AbstractType
 {
@@ -17,6 +18,13 @@ class RegistrationType extends AbstractType
             'type'        => 'password',
         ));
         $builder->add('Register', 'submit');
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\User\Registration\Registration',
+        ]);
     }
 
     public function getName()
