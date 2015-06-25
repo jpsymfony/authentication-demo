@@ -13,14 +13,14 @@ class ChangePasswordFormHandler implements FormHandlerInterface
      *
      * @var UserManagerInterface
      */
-    private $userManager;
+    private $handler;
 
     /**
      * @param UserManagerInterface $userManager
      */
     public function __construct(UserManagerInterface $userManager)
     {
-        $this->userManager = $userManager;
+        $this->handler = $userManager;
     }
 
     /**
@@ -38,7 +38,7 @@ class ChangePasswordFormHandler implements FormHandlerInterface
             return false;
         }
 
-        $this->userManager->updateCredentials($form->getData()->getUser(), $form->getData()->getNewPassword());
+        $this->handler->updateCredentials($form->getData()->getUser(), $form->getData()->getNewPassword());
 
         return true;
     }

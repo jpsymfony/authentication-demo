@@ -13,14 +13,14 @@ class RegistrationFormHandler implements FormHandlerInterface
      *
      * @var UserManagerInterface
      */
-    private $userManager;
+    private $handler;
     
     /**
      * @param UserManagerInterface $userManager
      */
     public function __construct(UserManagerInterface $userManager)
     {
-        $this->userManager = $userManager;
+        $this->handler = $userManager;
     }
 
     /**
@@ -38,7 +38,7 @@ class RegistrationFormHandler implements FormHandlerInterface
             return false;
         }
 
-        $this->userManager->createUser($form->getData()->getUser());
+        $this->handler->createUser($form->getData()->getUser());
 
         return true;
     }
