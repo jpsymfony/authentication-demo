@@ -8,6 +8,7 @@
             {{ error.messageKey|trans(error.messageData) }}
         </div>
     {% endif %}
+    {% include 'partials/errorSuccess.html.twig' %}
 
     <div class="row">
         <div class="col-sm-5">
@@ -30,6 +31,7 @@
                     </fieldset>
                 </form>
             </div>
+            <a href="{{ path('request_password') }}">forgot password?</a>
         </div>
     </div>
 {% endblock %}
