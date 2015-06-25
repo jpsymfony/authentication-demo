@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ChangePasswordType extends AbstractType
 {
@@ -65,7 +65,7 @@ class ChangePasswordType extends AbstractType
         );
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => 'AppBundle\User\Password\ChangePassword',
@@ -75,6 +75,6 @@ class ChangePasswordType extends AbstractType
 
     public function getName()
     {
-        return 'change_password';
+        return 'change_password_form';
     }
 }
