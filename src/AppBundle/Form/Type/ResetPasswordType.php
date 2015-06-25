@@ -53,7 +53,7 @@ class ResetPasswordType extends AbstractType
                 $token = $this->request->query->get('token');
 
                 if (!$token) {
-                   throw new \Symfony\Component\Routing\Exception\InvalidParameterException('Incorrect Token.');
+                   throw new \Exception('Incorrect Token.');
                 }
 
                 $user = $this->handler->getUserByConfirmationToken($token);
